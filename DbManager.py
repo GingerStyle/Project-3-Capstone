@@ -25,6 +25,7 @@ def main_menu_print():
     user_input = int(input('Enter the number of your selection. '))
     return user_input
 
+#used to give the user a choice on which table to add/make changes
 def secondary_menu_print():
     #get required information
     print('1. Venue')
@@ -33,6 +34,7 @@ def secondary_menu_print():
     choice = input('Enter the number of your choice')
     return choice
 
+#method used to query the database
 def search_record():
     return
 
@@ -52,7 +54,7 @@ def add_record(choice):
     elif choice == 2:
         #get new merchandise info
         item = input('What is the item name? ')
-        description = input('Enter adescription of the item. ')
+        description = input('Enter a description of the item. ')
         price = float(input('Enter a price for the item. '))
         quantity = int(input('How many of these do you have? '))
         #add record to database
@@ -61,7 +63,7 @@ def add_record(choice):
         db.commit()
     elif choice == 3:
         #get sale information
-        venue = input('What venue was this sale completed? ')
+        venue = input('At what venue was this sale completed? ')
         itemName = input('What is the item name? ')
         numItems = input('How many were sold? ')
         #add record to database
@@ -69,12 +71,29 @@ def add_record(choice):
         #commit changes
         db.commit()
 
-def update_record():
+#method used to update records
+def update_record(choice):
+    #determine which table to update
+    tableName = ''
+    if choice == 1:
+        tableName = 'venue'
+    elif choice == 2:
+        tableName = 'merchandise'
+    elif choice == 3:
+        tableName = 'sales'
+    #get update information
+    update = input('What field would you like to update? ')
+    newValue = input('Enter a new value for this field. ')
+    #update information
+    cur.execute('update ? set ? = ?', (tableName, update, newValue))
+    #commit changes
+    db.commit()
+
+#method used to delete records
+def delete_record(choice):
     return
 
-def delete_record():
-    return
-
+#main method
 def main():
     #display menu and get user input
     user_input = main_menu_print()
