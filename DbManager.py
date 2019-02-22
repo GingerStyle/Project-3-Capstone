@@ -84,10 +84,21 @@ def update_record(choice):
     #get update information
     update = input('What field would you like to update? ')
     newValue = input('Enter a new value for this field. ')
-    #update information
-    cur.execute('update ? set ? = ?', (tableName, update, newValue))
-    #commit changes
-    db.commit()
+    crit = input('Any criteria for this update? (y/n)')
+    if crit.upper() == 'N':
+        #update information
+        cur.execute('update ? set ? = ?', (tableName, update, newValue))
+        #commit changes
+        db.commit()
+    elif crit.upper() == 'Y':
+        #get criteria
+        criteria = input('Enter the first field. ')
+        operator = input('Enter the criteria (column1 <,>,=, or <> column2)')
+        criteria2 = input('Enter the second field. ')
+        #update the record
+        cur.execute("update ? set ? = ? where ?' '?' '?",(tableName, update, newValue, criteria, operator, criteria2))
+        #commit changes
+        db.commit()
 
 #method used to delete records
 def delete_record(choice):
@@ -102,7 +113,7 @@ def main():
         if user_input == 1:
             search_record()
         elif user_input == 2:
-            print('What do you want to add a new record for?')
+            print('What do you want to add a new record to?')
             choice = secondary_menu_print()
             add_record(choice)
         elif user_input == 3:
