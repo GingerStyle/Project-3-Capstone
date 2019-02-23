@@ -36,6 +36,7 @@ def secondary_menu_print():
 
 #method used to query the database
 def search_record():
+
     return
 
 #method to add records to the database
@@ -94,7 +95,7 @@ def update_record(choice):
         #get criteria
         print('You must enter criteria in this format: (column1 <,>,=, or <> column2)')
         criteria_1 = input('Enter column1. ')
-        operator = input('Enter the criteria (<,>,=, or <>)')
+        operator = input('Enter the operator (<,>,=, or <>)')
         criteria_2 = input('Enter column2. ')
         #update the record
         cur.execute("update ? set ? = ? where ?' '?' '?",(tableName, update, newValue, criteria_1, operator, criteria_2))
@@ -114,7 +115,7 @@ def delete_record(choice):
     # get update information
     print('You must enter criteria in this format: (column1 <,>,=, or <> column2)')
     criteria_1 = input('Enter column1. ')
-    operator = input('Enter the criteria (<,>,=, or <>)')
+    operator = input('Enter the operator (<,>,=, or <>)')
     criteria_2 = input('Enter column2. ')
     #delete the record
     cur.execute("delete from ? where ?' '?' '?", (tableName, criteria_1, operator, criteria_2))
