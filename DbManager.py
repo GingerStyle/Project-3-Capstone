@@ -10,7 +10,7 @@ db.row_factory = sqlite3.Row
 cur = db.cursor()
 
 #create a tables for the databse if they don't exist
-cur.execute('create table if not exists venue(Venue text, Date date, Street text, State text, ZipCode text)')
+cur.execute('create table if not exists venue(Venue text, Date date, Street text, City text, State text, ZipCode text)')
 cur.execute('create table if not exists merchandise(ItemName text, Description text, Price float, Quantity integer)')
 cur.execute('create table if not exists sales(Venue text, ItemName text, NumItems integer, '
             'FOREIGN KEY(Venue) REFERENCES venue(Venue), FOREIGN KEY(ItemName) REFERENCES merchandise(ItemName))')
@@ -31,7 +31,7 @@ def secondary_menu_print():
     print('1. Venue')
     print('2. Merchandise')
     print('3. Sale')
-    choice = input('Enter the number of your choice')
+    choice = input('Enter the number of your choice. ')
     return choice
 
 #method used to query the database. Only allows select all because there is not that many columns in these tables
@@ -39,35 +39,36 @@ def secondary_menu_print():
 def search_record(choice):
     # determine which table to update
     tableName = ''
-    if choice == 1:
+    if choice == '1':
         tableName = 'venue'
-    elif choice == 2:
+    elif choice == '2':
         tableName = 'merchandise'
-    elif choice == 3:
+    elif choice == '3':
         tableName = 'sales'
     #get additional information for query
-    print('You must enter criteria in this format: (column1 <,>,=, or <> column2)')
-    criteria_1 = input('Enter column1. ')
-    operator = input('Enter the operator (<,>,=, or <>)')
-    criteria_2 = input('Enter column2. ')
+    print('You must enter criteria in this format: (column <,>,=, or <> value)')
+    criteria = input('Enter column. ')
+    operator = input('Enter the operator (<,>,=, or <>) ')
+    value = input('Enter value. ')
     #search the database
-    cur.execute("select * from ? where ?' '?' '?", (tableName, criteria_1, operator, criteria_2))
+    result = cur.execute('select * from ? where ? ? ?', (tableName, criteria, operator, value))
     #print the results
 
 #method to add records to the database
 def add_record(choice):
-    if choice == 1:
+    if choice == '1':
         #get new venue info
         venue = input('What is the venue name? ')
         concertDate = input('What is the concert date? (yyyy-mm-dd) ')
         street = input('What is the street address? ')
-        state = input('What state is the venue in?')
-        zipCode = input('Enter the Zip Code')
+        city = input('What city is the venue in? ')
+        state = input('What state is the venue in? ')
+        zipCode = input('Enter the Zip Code. ')
         #add record to database
-        cur.execute('insert into venue values(?, ?, ?, ?, ?)', (venue, concertDate, street, state, zipCode))
+        cur.execute('insert into venue values(?, ?, ?, ?, ?, ?)', (venue, concertDate, street, city, state, zipCode))
         #commit the changes
         db.commit()
-    elif choice == 2:
+    elif choice == '2':
         #get new merchandise info
         itemName = input('What is the item name? ')
         description = input('Enter a description of the item. ')
@@ -77,7 +78,7 @@ def add_record(choice):
         cur.execute('insert into merchandise values(?, ?, ?, ?)', (itemName, description, price, quantity))
         #commit the changes
         db.commit()
-    elif choice == 3:
+    elif choice == '3':
         #get sale information
         venue = input('At what venue was this sale completed? ')
         itemName = input('What is the item name? ')
@@ -91,11 +92,11 @@ def add_record(choice):
 def update_record(choice):
     #determine which table to update
     tableName = ''
-    if choice == 1:
+    if choice == '1':
         tableName = 'venue'
-    elif choice == 2:
+    elif choice == '2':
         tableName = 'merchandise'
-    elif choice == 3:
+    elif choice == '3':
         tableName = 'sales'
     #get update information
     update = input('What field would you like to update? ')
@@ -108,12 +109,12 @@ def update_record(choice):
         db.commit()
     elif crit.upper() == 'Y':
         #get criteria
-        print('You must enter criteria in this format: (column1 <,>,=, or <> column2)')
-        criteria_1 = input('Enter column1. ')
-        operator = input('Enter the operator (<,>,=, or <>)')
-        criteria_2 = input('Enter column2. ')
+        print('You must enter criteria in this format: (column <,>,=, or <> value)')
+        criteria = input('Enter column. ')
+        operator = input('Enter the operator (<,>,=, or <>) ')
+        value = input('Enter value. ')
         #update the record
-        cur.execute("update ? set ? = ? where ?' '?' '?",(tableName, update, newValue, criteria_1, operator, criteria_2))
+        cur.execute("update ? set ? = ? where ? ? ?",(tableName, update, newValue, criteria, operator, value))
         #commit changes
         db.commit()
 
@@ -121,19 +122,19 @@ def update_record(choice):
 def delete_record(choice):
     # determine which table to update
     tableName = ''
-    if choice == 1:
+    if choice == '1':
         tableName = 'venue'
-    elif choice == 2:
+    elif choice == '2':
         tableName = 'merchandise'
-    elif choice == 3:
+    elif choice == '3':
         tableName = 'sales'
     # get update information
-    print('You must enter criteria in this format: (column1 <,>,=, or <> column2)')
-    criteria_1 = input('Enter column1. ')
-    operator = input('Enter the operator (<,>,=, or <>)')
-    criteria_2 = input('Enter column2. ')
+    print('You must enter criteria in this format: (column <,>,=, or <> value)')
+    criteria = input('Enter column. ')
+    operator = input('Enter the operator (<,>,=, or <>) ')
+    value = input('Enter value. ')
     #delete the record
-    cur.execute("delete from ? where ?' '?' '?", (tableName, criteria_1, operator, criteria_2))
+    cur.execute("delete from ? where ? ? ?", (tableName, criteria, operator, value))
     #commit changes
     db.commit()
 
