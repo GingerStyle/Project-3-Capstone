@@ -34,10 +34,25 @@ def secondary_menu_print():
     choice = input('Enter the number of your choice')
     return choice
 
-#method used to query the database
-def search_record():
-
-    return
+#method used to query the database. Only allows select all because there is not that many columns in these tables
+#and I had to keep it simpler for completion time sake.
+def search_record(choice):
+    # determine which table to update
+    tableName = ''
+    if choice == 1:
+        tableName = 'venue'
+    elif choice == 2:
+        tableName = 'merchandise'
+    elif choice == 3:
+        tableName = 'sales'
+    #get additional information for query
+    print('You must enter criteria in this format: (column1 <,>,=, or <> column2)')
+    criteria_1 = input('Enter column1. ')
+    operator = input('Enter the operator (<,>,=, or <>)')
+    criteria_2 = input('Enter column2. ')
+    #search the database
+    cur.execute("select * from ? where ?' '?' '?", (tableName, criteria_1, operator, criteria_2))
+    #print the results
 
 #method to add records to the database
 def add_record(choice):
@@ -129,7 +144,9 @@ def main():
     #call appropriate method
     while user_input != 5:
         if user_input == 1:
-            search_record()
+            print('Where do you want to search?')
+            choice = secondary_menu_print()
+            search_record(choice)
         elif user_input == 2:
             print('What do you want to add a new record to?')
             choice = secondary_menu_print()
