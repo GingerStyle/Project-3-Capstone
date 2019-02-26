@@ -15,12 +15,37 @@ cur.execute('create table if not exists merchandise(ItemName text, Description t
 cur.execute('create table if not exists sales(Venue text, ItemName text, NumItems integer, '
             'FOREIGN KEY(Venue) REFERENCES venue(Venue), FOREIGN KEY(ItemName) REFERENCES merchandise(ItemName))')
 
+#method used to add venues to the database
+def add_venue_to_db(venue, concertDate, street, city, state, zipCode):
+    try:
+        with db:
+            cur.execute('insert into venue values(?, ?, ?, ?, ?, ?)', (venue, concertDate, street, city, state, zipCode))
+    except sqlite3.Error as error:
+        print('Error adding venue.')
+        print(error)
+
+def add_merch_to_db(itemName, description, price, quantity):
+    try:
+        with db:
+            cur.execute('insert into merchandise values(?, ?, ?, ?)', (itemName, description, price, quantity))
+    except sqlite3.Error as error:
+        print('Error adding merchandise.')
+        print(error)
+
+def add_sales_to_db(venue, itemName, numItems):
+    try:
+        with db:
+            cur.execute('insert into sales values(?, ?, ?)', (venue, itemName, numItems))
+    except sqlite3.Error as error:
+        print('Error adding sale.')
+        print(error)
+
 #prints menu selections and gets/returns selection
 def main_menu_print():
     print('1. Search')
-    print('2. Add Record')
-    print('3. Update Record')
-    print('4. Delete Record')
+    print('2. Add Venue')
+    print('3. Add Merchandise')
+    print('4. Add Sales Information')
     print('5. Exit')
     user_input = int(input('Enter the number of your selection. '))
     return user_input
@@ -55,38 +80,32 @@ def search_record(choice):
     #print the results
 
 #method to add records to the database
-def add_record(choice):
-    if choice == '1':
-        #get new venue info
-        venue = input('What is the venue name? ')
-        concertDate = input('What is the concert date? (yyyy-mm-dd) ')
-        street = input('What is the street address? ')
-        city = input('What city is the venue in? ')
-        state = input('What state is the venue in? ')
-        zipCode = input('Enter the Zip Code. ')
-        #add record to database
-        cur.execute('insert into venue values(?, ?, ?, ?, ?, ?)', (venue, concertDate, street, city, state, zipCode))
-        #commit the changes
-        db.commit()
-    elif choice == '2':
-        #get new merchandise info
-        itemName = input('What is the item name? ')
-        description = input('Enter a description of the item. ')
-        price = float(input('Enter a price for the item. '))
-        quantity = int(input('How many of these do you have? '))
-        #add record to database
-        cur.execute('insert into merchandise values(?, ?, ?, ?)', (itemName, description, price, quantity))
-        #commit the changes
-        db.commit()
-    elif choice == '3':
-        #get sale information
-        venue = input('At what venue was this sale completed? ')
-        itemName = input('What is the item name? ')
-        numItems = input('How many were sold? ')
-        #add record to database
-        cur.execute('insert into sales values(?, ?, ?)', (venue, itemName, numItems))
-        #commit changes
-        db.commit()
+def add_venue():
+    venue = input('What is the venue name? ')
+    concertDate = input('What is the concert date? (yyyy-mm-dd) ')
+    street = input('What is the street address? ')
+    city = input('What city is the venue in? ')
+    state = input('What state is the venue in? ')
+    zipCode = input('Enter the Zip Code. ')
+    #add record to database
+    add_venue_to_db(venue, concertDate, street, city, state, zipCode)
+
+def add_merchandise():
+    #get new merchandise info
+    itemName = input('What is the item name? ')
+    description = input('Enter a description of the item. ')
+    price = float(input('Enter a price for the item. '))
+    quantity = int(input('How many of these do you have? '))
+    #add record to database
+    add_merch_to_db(itemName, description, price, quantity)
+
+def add_sales():
+    #get sale information
+    venue = input('At what venue was this sale completed? ')
+    itemName = input('What is the item name? ')
+    numItems = input('How many were sold? ')
+    #add record to database
+    add_sales_to_db(venue, itemName, numItems)
 
 #method used to update records. Allows you to build an sql string.
 def update_record(choice):
@@ -149,17 +168,11 @@ def main():
             choice = secondary_menu_print()
             search_record(choice)
         elif user_input == 2:
-            print('What do you want to add a new record to?')
-            choice = secondary_menu_print()
-            add_record(choice)
+            add_venue()
         elif user_input == 3:
-            print('What do you want to update a record for?')
-            choice = secondary_menu_print()
-            update_record(choice)
+            add_merchandise()
         elif user_input == 4:
-            print('Where do you want to delete a record from?')
-            choice = secondary_menu_print()
-            delete_record(choice)
+            add_sales()
         #re-display the menu
         user_input = main_menu_print()
 
