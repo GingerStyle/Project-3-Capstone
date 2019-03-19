@@ -25,8 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DbManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="107" column="46" lean-forward="true" selection-start-line="107" selection-start-column="46" selection-end-line="107" selection-end-column="46" />
+            <state relative-caret-position="119">
+              <caret line="47" column="78" selection-start-line="47" selection-start-column="78" selection-end-line="47" selection-end-column="78" />
             </state>
           </provider>
         </entry>
@@ -80,7 +80,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Lab 5" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -110,18 +110,20 @@
       <workItem from="1550941453502" duration="4208000" />
       <workItem from="1550974907866" duration="44000" />
       <workItem from="1551036168843" duration="6754000" />
-      <workItem from="1551209627453" duration="3151000" />
+      <workItem from="1551209627453" duration="3457000" />
+      <workItem from="1551223087419" duration="3145000" />
+      <workItem from="1553023234996" duration="1238000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23849000" />
+    <option name="totallyTimeSpent" value="28538000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="1" width="1380" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24772727" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25530303" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -158,8 +160,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DbManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="107" column="46" lean-forward="true" selection-start-line="107" selection-start-column="46" selection-end-line="107" selection-end-column="46" />
+        <state relative-caret-position="119">
+          <caret line="47" column="78" selection-start-line="47" selection-start-column="78" selection-end-line="47" selection-end-column="78" />
         </state>
       </provider>
     </entry>

@@ -24,6 +24,7 @@ def add_venue_to_db(venue, concertDate, street, city, state, zipCode):
         print('Error adding venue.')
         print(error)
 
+#method used to add new merchandise to database
 def add_merch_to_db(itemName, description, price, quantity):
     try:
         with db:
@@ -32,6 +33,7 @@ def add_merch_to_db(itemName, description, price, quantity):
         print('Error adding merchandise.')
         print(error)
 
+#method used to add sales information to database
 def add_sales_to_db(venue, itemName, numItems):
     try:
         with db:
@@ -39,6 +41,20 @@ def add_sales_to_db(venue, itemName, numItems):
     except sqlite3.Error as error:
         print('Error adding sale.')
         print(error)
+
+#method to perform searches on the venue table
+def search_venue(choice, venue, itemName):
+    if choice == '1':
+        results = cur.execute('select Max(NumItems) from sales group by venue')
+        print(results[0])
+
+#method used to perform searches on the merchandise table
+def search_merchandise():
+    return
+
+#method used to perform searches on the sales table
+def search_sales():
+    return
 
 #prints menu selections and gets/returns selection
 def main_menu_print():
@@ -59,24 +75,38 @@ def secondary_menu_print():
     choice = input('Enter the number of your choice. ')
     return choice
 
-#method used to query the database. Only allows select all because there is not that many columns in these tables
-#and I had to keep it simpler for completion time sake.
+#method used to query the database.
 def search_record(choice):
-    # determine which table to update
+    #determine which table to look in
     tableName = ''
     if choice == '1':
         tableName = 'venue'
+        print('What search would you like to perform?')
+        print('1. How much merchandise was sold at single venue.')
+        print('2. Where was the most merchandise sold.')
+        print('3. Where was the least merchandise sold.')
+        search = input('Enter the number of your choice. ')
+        if search == '1':
+            venue = input('Enter the name of the venue. ')
+            itemName = input('Enter the name of the item. ')
+            search_venue(search, venue, itemName)
+        elif search == '2':
+            search_venue(2)
     elif choice == '2':
         tableName = 'merchandise'
+        print('What search would you like to perform?')
+        print('1. ')
+        print('2. ')
+        search = input('Enter the number of your choice. ')
+        if search == '1':
+            search_merchandise()
     elif choice == '3':
         tableName = 'sales'
-    #get additional information for query
-    print('You must enter criteria in this format: (column <,>,=, or <> value)')
-    criteria = input('Enter column. ')
-    operator = input('Enter the operator (<,>,=, or <>) ')
-    value = input('Enter value. ')
-    #search the database
-    result = cur.execute('select * from ? where ? ? ?', (tableName, criteria, operator, value))
+        print('What search would you like to perform?')
+        print('1. How much merchandise was sold at single venue.')
+        print('2. What is the biggest seller.')
+        print('3. What sells the least.')
+
     #print the results
 
 #method to add records to the database
@@ -106,56 +136,6 @@ def add_sales():
     numItems = input('How many were sold? ')
     #add record to database
     add_sales_to_db(venue, itemName, numItems)
-
-#method used to update records. Allows you to build an sql string.
-def update_record(choice):
-    #determine which table to update
-    tableName = ''
-    if choice == '1':
-        tableName = 'venue'
-    elif choice == '2':
-        tableName = 'merchandise'
-    elif choice == '3':
-        tableName = 'sales'
-    #get update information
-    update = input('What field would you like to update? ')
-    newValue = input('Enter a new value for this field. ')
-    crit = input('Is there any criteria for this update? (y/n)')
-    if crit.upper() == 'N':
-        #update information
-        cur.execute('update ? set ? = ?', (tableName, update, newValue))
-        #commit changes
-        db.commit()
-    elif crit.upper() == 'Y':
-        #get criteria
-        print('You must enter criteria in this format: (column <,>,=, or <> value)')
-        criteria = input('Enter column. ')
-        operator = input('Enter the operator (<,>,=, or <>) ')
-        value = input('Enter value. ')
-        #update the record
-        cur.execute("update ? set ? = ? where ? ? ?",(tableName, update, newValue, criteria, operator, value))
-        #commit changes
-        db.commit()
-
-#method used to delete records. Only allows you to delete with criteria.
-def delete_record(choice):
-    # determine which table to update
-    tableName = ''
-    if choice == '1':
-        tableName = 'venue'
-    elif choice == '2':
-        tableName = 'merchandise'
-    elif choice == '3':
-        tableName = 'sales'
-    # get update information
-    print('You must enter criteria in this format: (column <,>,=, or <> value)')
-    criteria = input('Enter column. ')
-    operator = input('Enter the operator (<,>,=, or <>) ')
-    value = input('Enter value. ')
-    #delete the record
-    cur.execute("delete from ? where ? ? ?", (tableName, criteria, operator, value))
-    #commit changes
-    db.commit()
 
 #main method
 def main():
